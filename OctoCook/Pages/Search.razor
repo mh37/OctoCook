@@ -7,7 +7,9 @@
            placeholder="Title"
            @bind="searchString" />
     <select name="sources" id="sources">
-        <option value="api1">Recipe API 1</option>
+        <option value="rakuten">Rakuten</option>
+        <option value="food2fork">Food2Fork</option>
+        <option value="bigoven">BigOven</option>
     </select>
 </div>
 <br />
@@ -18,6 +20,11 @@
 </button>
 
 @code {
+
+    //Free APIs
+    // https://rapidapi.com/rakuten_webservice/api/rakuten-recipe/
+    // https://rapidapi.com/community/api/food2fork/
+    // https://rapidapi.com/volodimir.kudriachenko/api/BigOven/
     string searchString = "";
 
     void SearchRecipe(){
