@@ -2,6 +2,25 @@
 
 <h3>Search Recipes</h3>
 
-@code {
+<div>
+    <input class="form-control" type="text"
+           placeholder="Title"
+           @bind="searchString" />
+    <select name="sources" id="sources">
+        <option value="api1">Recipe API 1</option>
+    </select>
+</div>
+<br />
 
+<button class="btn btn-success"
+        @onclick="SearchRecipe">
+    Search
+</button>
+
+@code {
+    string searchString = "";
+
+    void SearchRecipe(){
+
+    }
 }
