@@ -1,0 +1,79 @@
+﻿@page "/recipes"
+@using EndToEnd.Data
+@inject RecipeDataService RecipeDataService
+@inject NavigationManager UriHelper
+
+<h1>My Recipes</h1>
+<!-- Add a new recipe -->
+<button class="btn btn-success"
+    @onclick="AddNewRecipe">
+    Add
+</button>
+
+@if (recipes == null)
+{
+    <!-- Show this if the current user has no data... yet... -->
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <!-- Show the Recipes -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Summary</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var recipe in recipes)
+            {
+                <tr>
+                    <td>@recipe.Date.ToShortDateString()</td>
+                    <td>@recipe.Title</td>
+                    <td>@recipe.Summary</td>
+                    <td>
+                        <!-- Edit the current recipe -->
+                        <button class="btn btn-primary"
+                        @onclick="(() => EditRecipe(recipe))">
+                            Edit
+                        </button>
+                        <!-- Open the current recipe -->
+                        <button class="btn btn-primary"
+                        @onclick="(() => OpenRecipe(recipe))">
+                            Open
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+  
+}
+
+@code
+{
+    List<EndToEnd.Data.Recipe> recipes = new List<EndToEnd.Data.Recipe>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Get the recipes
+        recipes = await RecipeDataService.GetRecipesAsync();
+    }
+    void AddNewRecipe()
+    {
+        UriHelper.NavigateTo("/add");
+    }
+    void EditRecipe(EndToEnd.Data.Recipe recipe)
+    {
+        UriHelper.NavigateTo("/edit/" + recipe.Id);
+    }
+
+    void OpenRecipe(EndToEnd.Data.Recipe recipe)
+    {
+        UriHelper.NavigateTo("/view/" + recipe.Id);
+    }
+
+}

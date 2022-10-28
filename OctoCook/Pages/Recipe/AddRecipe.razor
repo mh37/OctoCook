@@ -1,0 +1,66 @@
+﻿@page "/add"
+@using EndToEnd.Data
+@inject RecipeDataService RecipeDataService
+@inject NavigationManager UriHelper
+
+<button class="btn btn-primary"
+        @onclick="NavigateBack">
+    Back
+</button>
+
+<p style="color:red">@Error</p>
+
+<h1>New Recipe</h1>
+
+<label>Title:</label>
+<input class="form-control" type="text"
+    placeholder="Title"
+       @bind="objRecipe.Title" />
+<label>Summary:</label>
+<input class="form-control" type="text"
+    placeholder="Summary"
+       @bind="objRecipe.Summary" />
+<br />
+<button class="btn btn-success"
+    @onclick="SaveRecipe">
+    Save
+</button>
+
+
+@code
+{
+    Recipe objRecipe = new EndToEnd.Data.Recipe();
+    string Error = "";
+
+    async Task SaveRecipe()
+    {
+        Error = "";
+
+        try{
+            // Create new recipe
+            List<EndToEnd.Data.Recipe> recipes = new List<EndToEnd.Data.Recipe>();
+            EndToEnd.Data.Recipe recipe = new EndToEnd.Data.Recipe();
+            recipe.Date = System.DateTime.Now;
+            recipe.Summary = objRecipe.Summary;
+            recipe.Title = objRecipe.Title;
+            // Save the result
+            var NewRecipe =
+            await RecipeDataService.CreateRecipeAsync(recipe);
+            // Add the recipe
+            recipes.Add(NewRecipe);
+            NavigateBack();
+        }
+        catch (Exception ex)
+        {
+            Error = ex.Message;
+        }
+        
+    }
+
+
+    void NavigateBack()
+    {
+        UriHelper.NavigateTo("/recipes");
+    }
+
+}

@@ -1,0 +1,45 @@
+﻿@page "/view/{id}"
+@using EndToEnd.Data
+@inject RecipeDataService RecipeDataService
+@inject NavigationManager UriHelper
+
+<button class="btn btn-primary"
+        @onclick="NavigateBack">
+    Back
+</button>
+
+<p style="color:red">@Error</p>
+@if (recipe == null)
+{
+    <!-- Show this if the current user has no data... yet... -->
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>@recipe.Title</h1>
+    <p>@recipe.Date</p>
+    <br />
+    <p>@recipe.Summary</p>
+
+}
+
+@code
+{
+    [Parameter]
+    public string Id { get; set; }
+
+    string Error = "";
+    Recipe recipe = new Recipe();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Get the forecasts
+        recipe = await RecipeDataService.GetRecipeAsync(int.Parse(Id));
+    }
+
+    void NavigateBack()
+    {
+        UriHelper.NavigateTo("/recipes");
+    }
+
+}

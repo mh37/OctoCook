@@ -1,0 +1,93 @@
+﻿@page "/edit/{id}"
+@using EndToEnd.Data
+@inject RecipeDataService RecipeDataService
+@inject NavigationManager UriHelper
+
+<button class="btn btn-primary"
+        @onclick="NavigateBack">
+    Back
+</button>
+
+<p style="color:red">@Error</p>
+@if (recipe == null)
+{
+    <!-- Show this if the current user has no data... yet... -->
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>@recipe.Title</h1>
+
+    <label>Title:</label>
+    <input class="form-control" type="text"
+        placeholder="Title"
+        @bind="recipe.Title" />
+    <label>Summary:</label>
+    <input class="form-control" type="text"
+        placeholder="Summary"
+        @bind="recipe.Summary" />
+    <br />
+    <button class="btn btn-success"
+        @onclick="SaveRecipe">
+        Save
+    </button>
+    <button class="btn btn-danger"
+        @onclick="DeleteRecipe">
+        Delete
+    </button>
+
+}
+
+@code
+{
+    [Parameter]
+    public string Id { get; set; }
+
+    string Error = "";
+    Recipe recipe = new Recipe();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Get the forecasts
+        recipe = await RecipeDataService.GetRecipeAsync(int.Parse(Id));
+    }
+
+    async Task SaveRecipe()
+    {
+        Error = "";
+        try
+        {
+            // This is an update
+            await RecipeDataService.UpdateRecipeAsync(recipe);
+            NavigateBack();
+        }
+        catch (Exception ex)
+        {
+            Error = ex.Message;
+        }
+    }
+
+    async Task DeleteRecipe()
+    {
+        try
+        {
+            List<Recipe> recipes = new List<Recipe>();
+            Error = "";
+            // Delete the recipe
+            await RecipeDataService.DeleteRecipeAsync(recipe);
+            // Remove the recipe
+            recipes.Remove(recipe);
+            NavigateBack();
+        }
+        catch (Exception ex)
+        {
+            Error = ex.Message;
+        }
+    }
+
+    void NavigateBack()
+    {
+        UriHelper.NavigateTo("/recipes");
+    }
+
+}
