@@ -16,10 +16,14 @@
 <input class="form-control" type="text"
     placeholder="Title"
        @bind="objRecipe.Title" />
-<label>Summary:</label>
-<input class="form-control" type="text"
-    placeholder="Summary"
-       @bind="objRecipe.Summary" />
+<label>Ingredients:</label>
+<textarea class="form-control" type="text"
+          placeholder="Ingredients"
+          @bind="objRecipe.Ingredients" />
+<label>Instructions:</label>
+<textarea class="form-control" type="text"
+    placeholder="Instructions"
+       @bind="objRecipe.Instructions" />
 <br />
 <button class="btn btn-success"
     @onclick="SaveRecipe">
@@ -41,7 +45,8 @@
             List<EndToEnd.Data.Recipe> recipes = new List<EndToEnd.Data.Recipe>();
             EndToEnd.Data.Recipe recipe = new EndToEnd.Data.Recipe();
             recipe.Date = System.DateTime.Now;
-            recipe.Summary = objRecipe.Summary;
+            recipe.Ingredients = objRecipe.Ingredients;
+            recipe.Instructions = objRecipe.Instructions;
             recipe.Title = objRecipe.Title;
             // Save the result
             var NewRecipe =

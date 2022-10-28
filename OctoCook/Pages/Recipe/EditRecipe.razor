@@ -22,10 +22,14 @@ else
     <input class="form-control" type="text"
         placeholder="Title"
         @bind="recipe.Title" />
-    <label>Summary:</label>
-    <input class="form-control" type="text"
-        placeholder="Summary"
-        @bind="recipe.Summary" />
+    <label>Ingredients:</label>
+    <textarea class="form-control" type="text"
+          placeholder="Ingredients"
+          @bind="recipe.Ingredients" />
+    <label>Instructions:</label>
+    <textarea class="form-control" type="text"
+        placeholder="Instructions"
+        @bind="recipe.Instructions" />
     <br />
     <button class="btn btn-success"
         @onclick="SaveRecipe">
