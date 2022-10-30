@@ -33,12 +33,6 @@ else
                     <td>@recipe.Date.ToShortDateString()</td>
                     <td>@recipe.Title</td>
                     <td>
-                        <!-- Edit the current recipe -->
-                        <button class="btn btn-primary"
-                        @onclick="(() => EditRecipe(recipe))">
-                            Edit
-                        </button>
-                        <!-- Open the current recipe -->
                         <button class="btn btn-primary"
                         @onclick="(() => OpenRecipe(recipe))">
                             Open
@@ -63,10 +57,6 @@ else
     void AddNewRecipe()
     {
         UriHelper.NavigateTo("/add");
-    }
-    void EditRecipe(EndToEnd.Data.Recipe recipe)
-    {
-        UriHelper.NavigateTo("/edit/" + recipe.Id);
     }
 
     void OpenRecipe(EndToEnd.Data.Recipe recipe)

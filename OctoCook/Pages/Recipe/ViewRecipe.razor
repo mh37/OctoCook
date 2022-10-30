@@ -7,6 +7,10 @@
         @onclick="NavigateBack">
     Back
 </button>
+<button class="btn btn-primary"
+        @onclick="EditRecipe">
+    Edit
+</button>
 
 <p style="color:red">@Error</p>
 @if (recipe == null)
@@ -45,6 +49,11 @@ else
     void NavigateBack()
     {
         UriHelper.NavigateTo("/recipes");
+    }
+
+    void EditRecipe()
+    {
+        UriHelper.NavigateTo("/edit/" + recipe.Id);
     }
 
 }
