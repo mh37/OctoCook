@@ -19,6 +19,8 @@ public static class MauiProgram
 		builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
 
+        
+
         // Set path to the SQLite database (it will be created if it does not exist)
         var dbPath =
             Path.Combine(
