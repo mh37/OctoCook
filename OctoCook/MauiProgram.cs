@@ -30,6 +30,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<RecipeDataService>(
             s => ActivatorUtilities.CreateInstance<RecipeDataService>(s, dbPath));
 
+
+
         return builder.Build();
 	}
 }

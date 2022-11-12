@@ -1,32 +1,78 @@
 ﻿@page "/search"
-@using RestSharp
+@using OctoCook.Data.API
+@using System.Text.Json
+@using System.Text
+@using EndToEnd.Data
+@using OctoCook.Data.API.Spoonacular
+@using System.Text.Json.Nodes
+
 
 <h3>Search Recipes</h3>
 
-<div>
-    <input class="form-control" type="text"
-           placeholder="Title"
-           @bind="searchString" />
-    <select name="sources" id="sources">
-        <option value="spoonacular">Spoonacular</option>
-    </select>
-</div>
-<br />
 
-<button class="btn btn-dark"
-        @onclick="SearchRecipe">
-    Search
-</button>
+    <div>
+        <input class="form-control" type="text"
+               placeholder="Recipe"
+               @bind="searchString" />
+        <button class="btn btn-dark" @onclick=@(async () => await getRecipes())>
+            Search 
+        </button>
+        <br />
+        @if (Recipes == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else {
+            <table class='table'>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var recipe in Recipes)
+                    {
+                        <tr>
+                        <td><img 
+                                srcset="@recipe.image 2x" 
+                                class="rounded float-left" 
+                         /></td>
+                            <td>@recipe.title</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+</div>
+
 
 @code {
+    string response = "";
 
-    //Free APIs
-    //https://spoonacular.com/food-api/pricing  150 calls per day
+
+    HttpClient _client = new HttpClient();
+    List<SpoonRecipe> Recipes = new List<SpoonRecipe>();
+
     string searchString = "";
+    string apiString = "https://api.spoonacular.com/recipes/complexSearch?apiKey=41ab32c269db431699d6f5762913f3a7&query=";
+    string apiresponse = "";
 
-    void SearchRecipe(string keyword, string source){
+    private async Task getRecipes()
+    {
+        var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+        response = await _client.GetStringAsync(apiString + searchString);
+
+        JsonNode resultsNode = JsonNode.Parse(response)!;
+        resultsNode = resultsNode!["results"];
+
+        Recipes = JsonSerializer.Deserialize<List<SpoonRecipe>>(resultsNode.ToJsonString(), options);
 
     }
 
-    
+
+
+
+      
+
 }
