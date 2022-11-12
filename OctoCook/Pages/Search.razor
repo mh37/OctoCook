@@ -9,7 +9,6 @@
 
 <h3>Search Recipes</h3>
 
-
     <div>
         <input class="form-control" type="text"
                placeholder="Recipe"
@@ -18,31 +17,23 @@
             Search 
         </button>
         <br />
+        <br />
         @if (Recipes == null)
         {
             <p><em>Loading...</em></p>
         }
         else {
-            <table class='table'>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var recipe in Recipes)
-                    {
-                        <tr>
-                        <td><img 
-                                srcset="@recipe.image 2x" 
-                                class="rounded float-left" 
-                         /></td>
-                            <td>@recipe.title</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <div class="container d-flex flex-wrap align-items-center">
+            @foreach (var recipe in Recipes)
+            {
+                <div class="card" style="width: 18rem;" @onclick="(() => openRecipe(recipe.id))">
+                    <img class="card-img-top" srcset="@recipe.image 2x" alt="Card image cap">
+                    <div class="card-body">
+                        <h6 class="card-title">@recipe.title</h6>
+                    </div>
+                </div>
+            }
+        </div>
         }
 </div>
 
@@ -50,19 +41,22 @@
 @code {
     string response = "";
 
-
     HttpClient _client = new HttpClient();
     List<SpoonRecipe> Recipes = new List<SpoonRecipe>();
 
     string searchString = "";
     string apiString = "https://api.spoonacular.com/recipes/complexSearch?apiKey=41ab32c269db431699d6f5762913f3a7&query=";
-    string apiresponse = "";
+
+    private void openRecipe(int recipeID){
+        
+    }
 
     private async Task getRecipes()
     {
         var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
         response = await _client.GetStringAsync(apiString + searchString);
 
+        //The recipes are nested in a node called results, so lets grab those
         JsonNode resultsNode = JsonNode.Parse(response)!;
         resultsNode = resultsNode!["results"];
 

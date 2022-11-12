@@ -18,6 +18,25 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
+.card {
+    border-radius: 8px;
+    border: 1px solid #cccccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    box-sizing: border-box;
+    transition: all linear 200ms;
+}
+
+.card:hover {
+    transform: scale(1.1);
+    transition: all linear 200ms;
+    z-index: 1;
+    box-shadow: 1px 1px 10px rgba(0,0,0,.3);
+    cursor: pointer;
+}
+
 .content {
     padding-top: 1.1rem;
 }
