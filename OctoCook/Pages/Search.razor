@@ -19,7 +19,7 @@
         </button>
         <br />
         <br />
-        @if (Recipes == null)
+        @if (showDetails == true)
         {
             <p><em>Loading...</em></p>
         }
@@ -45,6 +45,7 @@
     HttpClient _client = new HttpClient();
     List<SpoonRecipe> Recipes = new List<SpoonRecipe>();
 
+    bool showDetails = false;
     string searchString = "";
     string apiString = "https://api.spoonacular.com/recipes/complexSearch?apiKey=41ab32c269db431699d6f5762913f3a7&query=";
 

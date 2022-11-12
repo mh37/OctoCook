@@ -9,6 +9,7 @@ namespace OctoCook.Data.API.Spoonacular
     internal class SpoonRecipeDetails
     {
         public int id { get; set; }
+        public SpoonIngredient[] extendedIngredients { get; set; }
         public string title { get; set; }
         public int readyInMinutes { get; set; }
         public int servings { get; set; }
