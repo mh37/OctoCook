@@ -49,7 +49,20 @@
     string apiString = "https://api.spoonacular.com/recipes/complexSearch?apiKey=41ab32c269db431699d6f5762913f3a7&query=";
 
     private void openRecipe(int recipeID){
-        
+        //GET https://api.spoonacular.com/recipes/661043/information?apiKey=41ab32c269db431699d6f5762913f3a7
+    }
+
+    private async Task getRecipesDetails(int recipeID)
+    {
+        var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+        response = await _client.GetStringAsync(apiString + searchString);
+
+        //The recipes are nested in a node called results, so lets grab those
+        JsonNode resultsNode = JsonNode.Parse(response)!;
+        resultsNode = resultsNode!["results"];
+
+        Recipes = JsonSerializer.Deserialize<List<SpoonRecipe>>(resultsNode.ToJsonString(), options);
+
     }
 
     private async Task getRecipes()
