@@ -63,7 +63,10 @@
 
     bool showDetails = true;
     string searchString = "";
-    string apiString = "https://api.spoonacular.com/recipes/complexSearch?apiKey=41ab32c269db431699d6f5762913f3a7&query=";
+    private string apiKey = "41ab32c269db431699d6f5762913f3a7";
+    string apiSearchString = "https://api.spoonacular.com/recipes/complexSearch?apiKey=";
+    string apiRecipeString = "https://api.spoonacular.com/recipes/";
+    
 
     private void closeRecipe(){
         showDetails = false;
@@ -72,10 +75,10 @@
     private async Task getRecipesDetails(int recipeID)
     {
         showDetails = true;
-        //GET https://api.spoonacular.com/recipes/661043/information?apiKey=41ab32c269db431699d6f5762913f3a7
+        //GET 
 
         var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
-        response = await _client.GetStringAsync(apiString + searchString);
+        response = await _client.GetStringAsync(apiRecipeString + recipeID + "/information?apiKey=" + apiKey);
 
         //The recipes are nested in a node called results, so lets grab those
         JsonNode resultsNode = JsonNode.Parse(response)!;
@@ -88,7 +91,7 @@
     private async Task getRecipes()
     {
         var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
-        response = await _client.GetStringAsync(apiString + searchString);
+        response = await _client.GetStringAsync(apiSearchString + apiKey + "&query=" + searchString);
 
         //The recipes are nested in a node called results, so lets grab those
         JsonNode resultsNode = JsonNode.Parse(response)!;
