@@ -18,7 +18,7 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
-.card {
+.minicard {
     border-radius: 8px;
     border: 1px solid #cccccc;
     display: flex;
@@ -29,7 +29,7 @@ a, .btn-link {
     transition: all linear 200ms;
 }
 
-.card:hover {
+.minicard:hover {
     transform: scale(1.1);
     transition: all linear 200ms;
     z-index: 1;

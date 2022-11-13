@@ -14,20 +14,36 @@
                placeholder="Recipe"
                @bind="searchString" />
         <br />
-        <button class="btn btn-dark" @onclick=@(async () => await getRecipes())>
+        <button class="btn btn-primary" @onclick=@(async () => await getRecipes())>
             Search 
         </button>
         <br />
         <br />
         @if (showDetails == true)
         {
-            <p><em>Loading...</em></p>
+            <div class="card">
+                <div class="card-header">
+                    <button class="btn btn-success">
+                        Save
+                    </button>
+                    <button class="btn btn-danger" @onclick=(closeRecipe)>
+                        Close
+                    </button>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">This is the text</p>
+                </div>
+                <div class="card-footer text-muted">
+                    source
+                </div>
+            </div>
         }
         else {
         <div class="container d-flex flex-wrap align-items-center">
             @foreach (var recipe in Recipes)
             {
-                <div class="card" style="width: 18rem;" @onclick="(() => openRecipe(recipe.id))">
+                <div class="card minicard" style="width: 18rem;" @onclick="(async () => await getRecipesDetails(recipe.id))">
                     <img class="card-img-top" srcset="@recipe.image 2x" alt="Card image cap">
                     <div class="card-body">
                         <h6 class="card-title">@recipe.title</h6>
@@ -45,16 +61,19 @@
     HttpClient _client = new HttpClient();
     List<SpoonRecipe> Recipes = new List<SpoonRecipe>();
 
-    bool showDetails = false;
+    bool showDetails = true;
     string searchString = "";
     string apiString = "https://api.spoonacular.com/recipes/complexSearch?apiKey=41ab32c269db431699d6f5762913f3a7&query=";
 
-    private void openRecipe(int recipeID){
-        //GET https://api.spoonacular.com/recipes/661043/information?apiKey=41ab32c269db431699d6f5762913f3a7
+    private void closeRecipe(){
+        showDetails = false;
     }
 
     private async Task getRecipesDetails(int recipeID)
     {
+        showDetails = true;
+        //GET https://api.spoonacular.com/recipes/661043/information?apiKey=41ab32c269db431699d6f5762913f3a7
+
         var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
         response = await _client.GetStringAsync(apiString + searchString);
 
