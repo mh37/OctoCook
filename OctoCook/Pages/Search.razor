@@ -32,6 +32,14 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">@RecipeDetails.title</h5>
+                    <h6 class="card-title">Ingredients</h6>
+                    <ul>
+                        @foreach (var ingredient in Ingredients)
+                        {
+                            <li>@ingredient.amount @ingredient.unit @ingredient.name</li>
+                        }
+                    </ul>
+                    <p class="card-text">.</p>
                     <h6 class="card-title">Summary</h6>
                     <p class="card-text">@RecipeDetails.summary</p>
                     <h6 class="card-title">Instructions</h6>
@@ -64,13 +72,14 @@
     HttpClient _client = new HttpClient();
     List<SpoonRecipe> Recipes = new List<SpoonRecipe>();
     SpoonRecipeDetails RecipeDetails = new SpoonRecipeDetails();
+    List<SpoonIngredient> Ingredients = new List<SpoonIngredient>();
 
     bool showDetails = false;
     string searchString = "";
     private string apiKey = "41ab32c269db431699d6f5762913f3a7";
     string apiSearchString = "https://api.spoonacular.com/recipes/complexSearch?apiKey=";
     string apiRecipeString = "https://api.spoonacular.com/recipes/";
-    
+
 
     private void closeRecipe(){
         showDetails = false;
@@ -83,9 +92,11 @@
         var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
         response = await _client.GetStringAsync(apiRecipeString + recipeID + "/information?apiKey=" + apiKey);
 
-        //The recipes are nested in a node called results, so lets grab those
         JsonNode resultsNode = JsonNode.Parse(response)!;
+        //The ingredients are nested in a node called extendedIngredients, so lets grab those
+        JsonNode ingredientsNode = resultsNode!["extendedIngredients"];
 
+        Ingredients = JsonSerializer.Deserialize<List<SpoonIngredient>>(ingredientsNode.ToJsonString(), options);
         RecipeDetails = JsonSerializer.Deserialize<SpoonRecipeDetails>(resultsNode.ToJsonString(), options);
 
     }
