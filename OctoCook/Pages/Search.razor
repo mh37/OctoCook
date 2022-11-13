@@ -31,11 +31,14 @@
                     </button>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">This is the text</p>
+                    <h5 class="card-title">@RecipeDetails.title</h5>
+                    <h6 class="card-title">Summary</h6>
+                    <p class="card-text">@RecipeDetails.summary</p>
+                    <h6 class="card-title">Instructions</h6>
+                    <p class="card-text">@RecipeDetails.instructions</p>
                 </div>
                 <div class="card-footer text-muted">
-                    source
+                    <a href="@RecipeDetails.sourceUrl">Source</a>
                 </div>
             </div>
         }
@@ -60,8 +63,9 @@
 
     HttpClient _client = new HttpClient();
     List<SpoonRecipe> Recipes = new List<SpoonRecipe>();
+    SpoonRecipeDetails RecipeDetails = new SpoonRecipeDetails();
 
-    bool showDetails = true;
+    bool showDetails = false;
     string searchString = "";
     private string apiKey = "41ab32c269db431699d6f5762913f3a7";
     string apiSearchString = "https://api.spoonacular.com/recipes/complexSearch?apiKey=";
@@ -75,16 +79,14 @@
     private async Task getRecipesDetails(int recipeID)
     {
         showDetails = true;
-        //GET 
 
         var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
         response = await _client.GetStringAsync(apiRecipeString + recipeID + "/information?apiKey=" + apiKey);
 
         //The recipes are nested in a node called results, so lets grab those
         JsonNode resultsNode = JsonNode.Parse(response)!;
-        resultsNode = resultsNode!["results"];
 
-        Recipes = JsonSerializer.Deserialize<List<SpoonRecipe>>(resultsNode.ToJsonString(), options);
+        RecipeDetails = JsonSerializer.Deserialize<SpoonRecipeDetails>(resultsNode.ToJsonString(), options);
 
     }
 
