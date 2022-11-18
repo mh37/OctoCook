@@ -23,7 +23,7 @@
         {
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-success">
+                <button class="btn btn-success" @onclick=(saveRecipe)>
                         Save
                     </button>
                     <button class="btn btn-danger" @onclick=(closeRecipe)>
@@ -32,17 +32,16 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">@RecipeDetails.title</h5>
-                    <h6 class="card-title">Ingredients</h6>
-                    <ul>
+                    <b class="card-title">Ingredients</b>
+                    <ul class="card-text">
                         @foreach (var ingredient in Ingredients)
                         {
                             <li>@ingredient.amount @ingredient.unit @ingredient.name</li>
                         }
                     </ul>
-                    <p class="card-text">.</p>
-                    <h6 class="card-title">Summary</h6>
-                    <p class="card-text">@RecipeDetails.summary</p>
-                    <h6 class="card-title">Instructions</h6>
+                    <b class="card-title">Summary</b>
+                    <p class="card-text">@((MarkupString)RecipeDetails.summary)</p>
+                    <b class="card-title">Instructions</b>
                     <p class="card-text">@RecipeDetails.instructions</p>
                 </div>
                 <div class="card-footer text-muted">
@@ -83,6 +82,10 @@
 
     private void closeRecipe(){
         showDetails = false;
+    }
+
+    private void saveRecipe(){
+
     }
 
     private async Task getRecipesDetails(int recipeID)
