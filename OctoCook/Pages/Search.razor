@@ -33,6 +33,7 @@
                 <div class="card-body">
                     <h5 class="card-title">@RecipeDetails.title</h5>
                     <img srcset="@RecipeDetails.image 2x"><br /><br />
+                    <p><b>Servings:</b> @RecipeDetails.servings <b>Time:</b> @RecipeDetails.readyInMinutes min</p>
                     <b class="card-title">Ingredients</b>
                     <ul class="card-text">
                         @foreach (var ingredient in Ingredients)
