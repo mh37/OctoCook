@@ -90,7 +90,7 @@
     private async Task SaveRecipe()
     {
         string Error = "";
-
+        // TODO: some recipes don't work, need to figure out why
         try
         {
             // Create new recipe
@@ -100,7 +100,7 @@
             recipe.Title = RecipeDetails.title;
             recipe.ReadyInMinutes = RecipeDetails.readyInMinutes;
             recipe.Servings = RecipeDetails.servings;
-            recipe.Ingredients = "";
+            recipe.Ingredients = JsonSerializer.Serialize(Ingredients);
             recipe.Summary = RecipeDetails.summary;
             recipe.Instructions = RecipeDetails.instructions;
             
