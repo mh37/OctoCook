@@ -1,4 +1,5 @@
 ﻿@page "/search"
+@inject RecipeDataService RecipeDataService
 @using OctoCook.Data.API
 @using System.Text.Json
 @using System.Text
@@ -23,7 +24,7 @@
         {
             <div class="card">
                 <div class="card-header">
-                <button class="btn btn-success" @onclick=(saveRecipe)>
+                <button class="btn btn-success" @onclick=(SaveRecipe)>
                         Save
                     </button>
                     <button class="btn btn-danger" @onclick=(closeRecipe)>
@@ -86,9 +87,37 @@
         showDetails = false;
     }
 
-    private void saveRecipe(){
+    private async Task SaveRecipe()
+    {
+        string Error = "";
+
+        try
+        {
+            // Create new recipe
+            List<EndToEnd.Data.Recipe> recipes = new List<EndToEnd.Data.Recipe>();
+            EndToEnd.Data.Recipe recipe = new EndToEnd.Data.Recipe();
+            recipe.Date = System.DateTime.Now;
+            recipe.Title = RecipeDetails.title;
+            recipe.ReadyInMinutes = RecipeDetails.readyInMinutes;
+            recipe.Servings = RecipeDetails.servings;
+            recipe.Ingredients = "";
+            recipe.Summary = RecipeDetails.summary;
+            recipe.Instructions = RecipeDetails.instructions;
+            
+            // Save the result
+            var NewRecipe =
+            await RecipeDataService.CreateRecipeAsync(recipe);
+            // Add the recipe
+            recipes.Add(NewRecipe);
+            closeRecipe();
+        }
+        catch (Exception ex)
+        {
+            Error = ex.Message;
+        }
 
     }
+
 
     private async Task getRecipesDetails(int recipeID)
     {
