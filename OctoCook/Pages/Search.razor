@@ -97,16 +97,16 @@
             List<EndToEnd.Data.Recipe> recipes = new List<EndToEnd.Data.Recipe>();
             EndToEnd.Data.Recipe recipe = new EndToEnd.Data.Recipe();
             recipe.Date = System.DateTime.Now;
-            recipe.Title = RecipeDetails.title;
+            recipe.Title = RecipeDetails.title ??= "";
             recipe.ReadyInMinutes = RecipeDetails.readyInMinutes;
             recipe.Servings = RecipeDetails.servings;
             recipe.Ingredients = JsonSerializer.Serialize(Ingredients);
-            recipe.Summary = RecipeDetails.summary;
-            recipe.Instructions = RecipeDetails.instructions;
+            recipe.Summary = RecipeDetails.summary ??= "";
+            recipe.Instructions = RecipeDetails.instructions ??= "";
             
             // Save the result
             var NewRecipe =
-            await RecipeDataService.CreateRecipeAsync(recipe);
+            await RecipeDataService.CreateRecipeAsync(recipe); 
             // Add the recipe
             recipes.Add(NewRecipe);
             closeRecipe();

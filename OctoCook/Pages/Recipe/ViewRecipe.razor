@@ -22,12 +22,25 @@ else
 {
     <h2>@recipe.Title</h2>
     <p>@recipe.Date</p>
+    <div>
+        <table>
+            <tr>
+                <td><b>Ready in:</b></td>
+                <td>@recipe.ReadyInMinutes minutes</td>
+            </tr>
+            <tr>
+                <td><b>Servings:</b></td>
+                <td>@recipe.Servings</td>
+            </tr>
+        </table>
+    </div>
+
     <br />
     <div>
         <h4>Ingredients</h4>
         <p>@recipe.Ingredients</p>
         <h4>Instructions</h4>
-        <p>@recipe.Instructions</p>
+        <p>@((MarkupString)recipe.Instructions)</p>
     </div>
     
 }
