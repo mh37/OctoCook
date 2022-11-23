@@ -22,6 +22,18 @@ else
     <input class="form-control" type="text"
         placeholder="Title"
         @bind="recipe.Title" />
+    <label>Ready in (minutes):</label>
+    <input class="form-control" type="text"
+       placeholder="minutes"
+       @bind="recipe.ReadyInMinutes" />
+    <label>Servings:</label>
+    <input class="form-control" type="text"
+       placeholder="Servings"
+       @bind="recipe.Servings" />
+    <label>Summary:</label>
+    <textarea class="form-control" type="text"
+          placeholder="Summary"
+          @bind="recipe.Summary" />
     <label>Ingredients:</label>
     <textarea class="form-control" type="text"
           placeholder="Ingredients"
