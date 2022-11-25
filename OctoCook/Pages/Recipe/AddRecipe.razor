@@ -18,9 +18,10 @@
     placeholder="Title"
        @bind="objRecipe.Title" />
 <label>Ingredients:</label>
-<textarea class="form-control" type="text"
-          placeholder="Ingredients"
-          @bind="objRecipe.Ingredients" />
+<TinyMCE.Blazor.Editor 
+    ScriptSrc="/lib/tinymce/tinymce.min.js"
+    Conf="@editorConf"
+    @bind-Value=objRecipe.Ingredients />
 <label>Instructions:</label>
 <TinyMCE.Blazor.Editor 
     ScriptSrc="/lib/tinymce/tinymce.min.js"
