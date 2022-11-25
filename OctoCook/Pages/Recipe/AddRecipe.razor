@@ -2,6 +2,7 @@
 @using EndToEnd.Data
 @inject RecipeDataService RecipeDataService
 @inject NavigationManager UriHelper
+@inject IJSRuntime JSRuntime
 
 <button class="btn btn-primary"
         @onclick="NavigateBack">
@@ -11,6 +12,10 @@
 <p style="color:red">@Error</p>
 
 <h2>New Recipe</h2>
+
+<TinyMCE.Blazor.Editor
+  ScriptSrc="/lib/tinymce/tinymce.min.js"
+/>
 
 <label>Title:</label>
 <input class="form-control" type="text"
