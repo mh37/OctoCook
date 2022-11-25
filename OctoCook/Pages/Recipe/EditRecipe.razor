@@ -31,17 +31,22 @@ else
        placeholder="Servings"
        @bind="recipe.Servings" />
     <label>Summary:</label>
-    <textarea class="form-control" type="text"
-          placeholder="Summary"
-          @bind="recipe.Summary" />
+    <TinyMCE.Blazor.Editor 
+        ScriptSrc="/lib/tinymce/tinymce.min.js"
+        Conf="@editorConf"
+        @bind-Value=recipe.Summary />
+    <br />
     <label>Ingredients:</label>
-    <textarea class="form-control" type="text"
-          placeholder="Ingredients"
-          @bind="recipe.Ingredients" />
+    <TinyMCE.Blazor.Editor 
+        ScriptSrc="/lib/tinymce/tinymce.min.js"
+        Conf="@editorConf"
+        @bind-Value=recipe.Ingredients />
+    <br />
     <label>Instructions:</label>
-    <textarea class="form-control" type="text"
-        placeholder="Instructions"
-        @bind="recipe.Instructions" />
+    <TinyMCE.Blazor.Editor 
+        ScriptSrc="/lib/tinymce/tinymce.min.js"
+        Conf="@editorConf"
+        @bind-Value=recipe.Instructions />
     <br />
     <button class="btn btn-success"
         @onclick="SaveRecipe">
@@ -56,6 +61,12 @@ else
 
 @code
 {
+    private Dictionary<string, object> editorConf = new Dictionary<string, object>{
+       { "menubar", false },
+       { "plugins", "link lists code autoresize" },
+       { "toolbar", "undo redo | styleselect | bold italic numlist bullist" }
+     };
+
     [Parameter]
     public string Id { get; set; }
 

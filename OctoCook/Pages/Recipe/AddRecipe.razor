@@ -18,6 +18,12 @@
     placeholder="Title"
        @bind="objRecipe.Title" />
 <br />
+<label>Summary:</label>
+<TinyMCE.Blazor.Editor 
+    ScriptSrc="/lib/tinymce/tinymce.min.js"
+    Conf="@editorConf"
+    @bind-Value=objRecipe.Summary />
+<br />
 <label>Ingredients:</label>
 <TinyMCE.Blazor.Editor 
     ScriptSrc="/lib/tinymce/tinymce.min.js"
