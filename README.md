@@ -1,3 +1,3 @@
 # OctoCook
 
-A cross platform application to manage your recipes and search for new ones.
+A cross platform application made with MAUI and Blazor to manage your cooking recipes and import new ones from external sources.
