@@ -45,7 +45,7 @@
                     <b class="card-title">Summary</b>
                     <p class="card-text">@((MarkupString)RecipeDetails.summary)</p>
                     <b class="card-title">Instructions</b>
-                    <p class="card-text">@RecipeDetails.instructions</p>
+                    <p class="card-text">@((MarkupString)RecipeDetails.instructions)</p>
                 </div>
                 <div class="card-footer text-muted">
                     <a href="@RecipeDetails.sourceUrl">Source</a>
@@ -100,10 +100,23 @@
             recipe.Title = RecipeDetails.title ??= "";
             recipe.ReadyInMinutes = RecipeDetails.readyInMinutes;
             recipe.Servings = RecipeDetails.servings;
-            recipe.Ingredients = JsonSerializer.Serialize(Ingredients);
             recipe.Summary = RecipeDetails.summary ??= "";
             recipe.Instructions = RecipeDetails.instructions ??= "";
-            
+
+            //Turn Ingredients list into HTML string
+            string ingredientsString = "";
+            ingredientsString += "<ul>";
+            foreach(SpoonIngredient spi in Ingredients)
+            {
+                ingredientsString += "<li>" + spi.amount + " ";
+                ingredientsString += spi.unit + " ";
+                ingredientsString += spi.name + "</li>";
+            }
+
+            ingredientsString += "</ul>";
+            recipe.Ingredients = ingredientsString;
+
+
             // Save the result
             var NewRecipe =
             await RecipeDataService.CreateRecipeAsync(recipe); 
