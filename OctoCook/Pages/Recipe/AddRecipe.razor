@@ -17,11 +17,13 @@
 <input class="form-control" type="text"
     placeholder="Title"
        @bind="objRecipe.Title" />
+<br />
 <label>Ingredients:</label>
 <TinyMCE.Blazor.Editor 
     ScriptSrc="/lib/tinymce/tinymce.min.js"
     Conf="@editorConf"
     @bind-Value=objRecipe.Ingredients />
+<br />
 <label>Instructions:</label>
 <TinyMCE.Blazor.Editor 
     ScriptSrc="/lib/tinymce/tinymce.min.js"
@@ -39,7 +41,7 @@
 {
     private Dictionary<string, object> editorConf = new Dictionary<string, object>{
        { "menubar", false },
-       { "plugins", "link lists code" },
+       { "plugins", "link lists code autoresize" },
        { "toolbar", "undo redo | styleselect | bold italic numlist bullist" }
      };
 
