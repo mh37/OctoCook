@@ -1,20 +1,79 @@
 ﻿@page "/settings"
+@using EndToEnd.Data
+@using System.Text.Json
+@using System.Reflection;
+@using System.IO;
+@inject RecipeDataService RecipeDataService
 
 <h3>Settings</h3>
 
-<h4>Export Recipes</h4>
-<button class="btn btn-dark"
-        @onclick="ExportBackup">
+<h5>Export Recipes</h5>
+<button class="btn btn-primary"
+        @onclick="ExportData">
     Export
 </button>
-
-<h4>Import Recipes</h4>
-<button class="btn btn-dark"
-        @onclick="ImportBackup">
+<br />
+@if(exportStatus == 1)
+{
+    <p>Exporting...</p>
+}else if(exportStatus == 2)
+{
+    <p>Export successful</p>
+}
+<br />
+<h5>Import Recipes</h5>
+<button class="btn btn-primary"
+        @onclick="ImportData">
     Import
 </button>
-
+@loadedData
 @code {
-    void ExportBackup(){}
-    void ImportBackup(){}
+
+
+    int exportStatus = 0; // 1: pending 2: success
+    int importStatus = 0; // 1: pending 2: success
+
+    List<EndToEnd.Data.Recipe> recipes = new List<EndToEnd.Data.Recipe>();
+
+    string loadedData = "Nothing loaded";
+
+
+
+    //Flag as pending
+    //exportStatus = 1;
+    //string fullPath = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, "OctoCookBackup.json");
+
+    //recipes = await RecipeDataService.GetRecipesAsync();
+    //var json = JsonSerializer.Serialize(recipes);
+
+    //using FileStream outputStream = System.IO.File.OpenWrite(fullPath);
+    //using StreamWriter streamWriter = new StreamWriter(outputStream);
+    //await streamWriter.WriteAsync("TEST");
+
+    // Flag as complete
+    //exportStatus = 2;
+
+    string targetFileName = "export.txt";
+
+
+    public async void ExportData()
+    {
+        
+        string text = "this is a test";
+
+        // Write the file content to the app data directory
+        string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, targetFileName);
+        using FileStream outputStream = System.IO.File.OpenWrite(targetFile);
+        using StreamWriter streamWriter = new StreamWriter(outputStream);
+        await streamWriter.WriteAsync(text);
+    }
+
+    public async void ImportData()
+    {
+        string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, targetFileName);
+        using FileStream InputStream = System.IO.File.OpenRead(targetFile);
+        using StreamReader reader = new StreamReader(InputStream);
+        loadedData = await reader.ReadToEndAsync();
+    }
+    
 }
