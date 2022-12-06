@@ -26,7 +26,7 @@
         @onclick="ImportData">
     Import
 </button>
-@loadedData
+@loadedJSON
 @code {
 
 
@@ -35,45 +35,43 @@
 
     List<EndToEnd.Data.Recipe> recipes = new List<EndToEnd.Data.Recipe>();
 
-    string loadedData = "Nothing loaded";
+    string loadedJSON = "";
+    string targetFileName = "backup.txt";
 
 
-
-    //Flag as pending
-    //exportStatus = 1;
-    //string fullPath = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, "OctoCookBackup.json");
-
-    //recipes = await RecipeDataService.GetRecipesAsync();
-    //var json = JsonSerializer.Serialize(recipes);
-
-    //using FileStream outputStream = System.IO.File.OpenWrite(fullPath);
-    //using StreamWriter streamWriter = new StreamWriter(outputStream);
-    //await streamWriter.WriteAsync("TEST");
-
-    // Flag as complete
-    //exportStatus = 2;
-
-    string targetFileName = "export.txt";
-
-
-    public async void ExportData()
+    public async Task ExportData()
     {
-        
-        string text = "this is a test";
-
+        //Flag as pending
+        exportStatus = 1;
+        // load all recipes into the recipe list
+        recipes = await RecipeDataService.GetRecipesAsync();
+        var json = JsonSerializer.Serialize(recipes);
         // Write the file content to the app data directory
         string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, targetFileName);
         using FileStream outputStream = System.IO.File.OpenWrite(targetFile);
         using StreamWriter streamWriter = new StreamWriter(outputStream);
-        await streamWriter.WriteAsync(text);
+        await streamWriter.WriteAsync(json);
+        // Flag as complete
+        exportStatus = 2;
     }
 
-    public async void ImportData()
+    public async Task ImportData()
     {
         string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, targetFileName);
         using FileStream InputStream = System.IO.File.OpenRead(targetFile);
         using StreamReader reader = new StreamReader(InputStream);
-        loadedData = await reader.ReadToEndAsync();
+        loadedJSON = await reader.ReadToEndAsync();
+        processImportData();
     }
-    
+
+    public void processImportData()
+    {
+        // create recipe list object from json import
+        var jdm = JsonSerializer.Deserialize<List<EndToEnd.Data.Recipe>>(loadedJSON);
+        recipes = jdm;
+        //remove recipes from DB
+
+        //write imported recipes to DB
+
+    }    
 }
