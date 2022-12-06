@@ -7,26 +7,30 @@
 
 <h3>Settings</h3>
 
-<h5>Export Recipes</h5>
 <button class="btn btn-primary"
         @onclick="ExportData">
-    Export
+    Create Backup
 </button>
 <br />
 @if(exportStatus == 1)
 {
-    <p>Exporting...</p>
+    <p>Exporting Recipes...</p>
 }else if(exportStatus == 2)
 {
-    <p>Export successful</p>
+    <p>Backup successful</p>
 }
 <br />
-<h5>Import Recipes</h5>
 <button class="btn btn-primary"
         @onclick="ImportData">
-    Import
+    Import Backup
 </button>
-@loadedJSON
+@if(importStatus == 1)
+{
+    <p>Importing Backup...</p>
+}else if(importStatus == 2)
+{
+    <p>Import successful</p>
+}
 @code {
 
     string Error = "";
@@ -38,6 +42,7 @@
     string loadedJSON = "";
     string targetFileName = "backup.txt";
 
+    //Backup will be placed in the AppDataDirectory. This should allow it to be synced with the Google Backup service.
 
     async Task ExportData()
     {
@@ -57,6 +62,8 @@
 
     async Task ImportData()
     {
+        //Flag as pending
+        importStatus = 1;
         string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, targetFileName);
         using FileStream InputStream = System.IO.File.OpenRead(targetFile);
         using StreamReader reader = new StreamReader(InputStream);
@@ -66,6 +73,8 @@
         //write imported recipes to DB
         processImportData();
         await saveListToDB();
+        // Flag as complete
+        importStatus = 2;
     }
 
     void processImportData()
