@@ -29,7 +29,7 @@
 @loadedJSON
 @code {
 
-
+    string Error = "";
     int exportStatus = 0; // 1: pending 2: success
     int importStatus = 0; // 1: pending 2: success
 
@@ -39,7 +39,7 @@
     string targetFileName = "backup.txt";
 
 
-    public async Task ExportData()
+    async Task ExportData()
     {
         //Flag as pending
         exportStatus = 1;
@@ -55,23 +55,57 @@
         exportStatus = 2;
     }
 
-    public async Task ImportData()
+    async Task ImportData()
     {
         string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, targetFileName);
         using FileStream InputStream = System.IO.File.OpenRead(targetFile);
         using StreamReader reader = new StreamReader(InputStream);
         loadedJSON = await reader.ReadToEndAsync();
+        //remove recipes from DB
+        await DeleteAllRecipes();
+        //write imported recipes to DB
         processImportData();
+        await saveListToDB();
     }
 
-    public void processImportData()
+    void processImportData()
     {
         // create recipe list object from json import
         var jdm = JsonSerializer.Deserialize<List<EndToEnd.Data.Recipe>>(loadedJSON);
         recipes = jdm;
-        //remove recipes from DB
-
-        //write imported recipes to DB
-
     }    
+
+    async Task saveListToDB()
+    {
+        try
+        {
+            Error = "";
+            foreach (EndToEnd.Data.Recipe r in recipes)
+            {
+                // Add the recipe
+                await RecipeDataService.CreateRecipeAsync(r);
+            }
+        }
+        catch (Exception ex)
+        {
+            Error = ex.Message;
+        }
+    }
+
+    async Task DeleteAllRecipes()
+    {
+        try
+        {
+            Error = "";
+            foreach (EndToEnd.Data.Recipe r in recipes)
+            {
+                // Delete the recipe
+                await RecipeDataService.DeleteRecipeAsync(r);
+            }
+        }
+        catch (Exception ex)
+        {
+            Error = ex.Message;
+        }
+    }
 }
