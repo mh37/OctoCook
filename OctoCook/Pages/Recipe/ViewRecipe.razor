@@ -11,6 +11,10 @@
         @onclick="EditRecipe">
     Edit
 </button>
+<button class="btn btn-danger"
+        @onclick="DeleteRecipe">
+    Delete
+</button>
 
 <p style="color:red">@Error</p>
 @if (recipe == null)
@@ -69,6 +73,21 @@ else
     void EditRecipe()
     {
         UriHelper.NavigateTo("/edit/" + recipe.Id);
+    }
+
+    async Task DeleteRecipe()
+    {
+        try
+        {
+            Error = "";
+            // Delete the recipe
+            await RecipeDataService.DeleteRecipeAsync(recipe);
+            NavigateBack();
+        }
+        catch (Exception ex)
+        {
+            Error = ex.Message;
+        }
     }
 
 }
