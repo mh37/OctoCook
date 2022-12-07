@@ -40,6 +40,7 @@ else if (exportStatus == 3)
 {
     <p>Import failed</p>
 }
+<br />
 
 @code {
 
@@ -63,6 +64,11 @@ else if (exportStatus == 3)
             // load all recipes into the recipe list
             recipes = await RecipeDataService.GetRecipesAsync();
             var json = JsonSerializer.Serialize(recipes);
+            // If file exists already then delete it
+            if (File.Exists(targetFile))
+            {
+                File.Delete(targetFile);
+            }
             // Write the file content to the app data directory
             using FileStream outputStream = System.IO.File.OpenWrite(targetFile);
             using StreamWriter streamWriter = new StreamWriter(outputStream);
