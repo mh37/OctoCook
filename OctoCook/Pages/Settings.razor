@@ -20,6 +20,10 @@
 {
     <p>Backup successful</p>
 }
+else if (exportStatus == 3)
+{
+    <p>Export failed</p>
+}
 <br />
 <button class="btn btn-warning"
         @onclick="ImportData">
@@ -54,15 +58,23 @@
     {
         //Flag as pending
         exportStatus = 1;
-        // load all recipes into the recipe list
-        recipes = await RecipeDataService.GetRecipesAsync();
-        var json = JsonSerializer.Serialize(recipes);
-        // Write the file content to the app data directory
-        using FileStream outputStream = System.IO.File.OpenWrite(targetFile);
-        using StreamWriter streamWriter = new StreamWriter(outputStream);
-        await streamWriter.WriteAsync(json);
-        // Flag as complete
-        exportStatus = 2;
+        try
+        {
+            // load all recipes into the recipe list
+            recipes = await RecipeDataService.GetRecipesAsync();
+            var json = JsonSerializer.Serialize(recipes);
+            // Write the file content to the app data directory
+            using FileStream outputStream = System.IO.File.OpenWrite(targetFile);
+            using StreamWriter streamWriter = new StreamWriter(outputStream);
+            await streamWriter.WriteAsync(json);
+            // Flag as complete
+            exportStatus = 2;
+        }catch(Exception ex)
+        {
+            exportStatus = 3;
+            Error = ex.Message;
+        }
+
     }
 
     async Task ImportData()
