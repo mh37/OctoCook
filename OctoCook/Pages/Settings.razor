@@ -95,10 +95,8 @@
         try
         {
             Error = "";
-            //Ensure JSON formatting for loadedJSON string
-            var json = JsonSerializer.Serialize(loadedJSON);
             // create recipe list object from json import
-            List<EndToEnd.Data.Recipe> importedRecipes = JsonSerializer.Deserialize<List<EndToEnd.Data.Recipe>>(json);
+            List<EndToEnd.Data.Recipe> importedRecipes = JsonSerializer.Deserialize<List<EndToEnd.Data.Recipe>>(loadedJSON);
             foreach (EndToEnd.Data.Recipe r in importedRecipes)
             {
                 // Add the recipe
@@ -124,6 +122,5 @@
             // Delete the recipe
             await RecipeDataService.DeleteRecipeAsync(r);
         }
-        recipes.Clear();
     }
 }
