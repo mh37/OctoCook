@@ -29,6 +29,7 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
         <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+        <DefaultLanguage>en</DefaultLanguage>
     </PropertyGroup>
 
     <ItemGroup>
@@ -52,8 +53,6 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.10" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.10" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-      <PackageReference Include="RestSharp" Version="108.0.2" />
       <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
       <PackageReference Include="TinyMCE" Version="6.3.0" />
       <PackageReference Include="TinyMCE.Blazor" Version="1.0.4" />

@@ -6,6 +6,7 @@
 @inject RecipeDataService RecipeDataService
 
 <h3>Settings</h3>
+@Error
 <br />
 <button class="btn btn-success"
         @onclick="ExportData">
@@ -24,13 +25,18 @@
         @onclick="ImportData">
     Import Backup
 </button>
+<br />
 @if(importStatus == 1)
 {
     <p>Importing Backup...</p>
 }else if(importStatus == 2)
 {
     <p>Import successful</p>
+}else if(importStatus == 3)
+{
+    <p>Import failed</p>
 }
+@loadedJSON
 @code {
 
     string Error = "";
@@ -40,7 +46,7 @@
     List<EndToEnd.Data.Recipe> recipes = new List<EndToEnd.Data.Recipe>();
 
     string loadedJSON = "";
-    string targetFileName = "backup.txt";
+    string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, "backup.txt");
 
     //Backup will be placed in the AppDataDirectory. This should allow it to be synced with the Google Backup service.
 
@@ -52,7 +58,6 @@
         recipes = await RecipeDataService.GetRecipesAsync();
         var json = JsonSerializer.Serialize(recipes);
         // Write the file content to the app data directory
-        string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, targetFileName);
         using FileStream outputStream = System.IO.File.OpenWrite(targetFile);
         using StreamWriter streamWriter = new StreamWriter(outputStream);
         await streamWriter.WriteAsync(json);
@@ -62,38 +67,45 @@
 
     async Task ImportData()
     {
+        Error = "";
         //Flag as pending
         importStatus = 1;
-        string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, targetFileName);
         using FileStream InputStream = System.IO.File.OpenRead(targetFile);
         using StreamReader reader = new StreamReader(InputStream);
         loadedJSON = await reader.ReadToEndAsync();
-        //remove recipes from DB
-        await DeleteAllRecipes();
-        //write imported recipes to DB
-        processImportData();
-        await saveListToDB();
-        // Flag as complete
-        importStatus = 2;
-    }
+        try
+        {
+            //remove recipes from DB
+            await DeleteAllRecipes();
+            //write imported recipes to DB
+            await saveImportToDB();
+            // Flag as complete
+            importStatus = 2;
+        }
+        catch (Exception ex)
+        {
+            importStatus = 3;
+            Error = ex.Message;
+        }
 
-    void processImportData()
-    {
-        // create recipe list object from json import
-        var jdm = JsonSerializer.Deserialize<List<EndToEnd.Data.Recipe>>(loadedJSON);
-        recipes = jdm;
-    }    
+    } 
 
-    async Task saveListToDB()
+    async Task saveImportToDB()
     {
         try
         {
             Error = "";
-            foreach (EndToEnd.Data.Recipe r in recipes)
+            //Ensure JSON formatting for loadedJSON string
+            var json = JsonSerializer.Serialize(loadedJSON);
+            // create recipe list object from json import
+            List<EndToEnd.Data.Recipe> importedRecipes = JsonSerializer.Deserialize<List<EndToEnd.Data.Recipe>>(json);
+            foreach (EndToEnd.Data.Recipe r in importedRecipes)
             {
                 // Add the recipe
                 await RecipeDataService.CreateRecipeAsync(r);
+                recipes.Add(r);
             }
+
         }
         catch (Exception ex)
         {
@@ -103,18 +115,15 @@
 
     async Task DeleteAllRecipes()
     {
-        try
+        Error = "";
+        // load all recipes into the recipe list
+        recipes = await RecipeDataService.GetRecipesAsync();
+        // remove each recipe from the db
+        foreach (EndToEnd.Data.Recipe r in recipes)
         {
-            Error = "";
-            foreach (EndToEnd.Data.Recipe r in recipes)
-            {
-                // Delete the recipe
-                await RecipeDataService.DeleteRecipeAsync(r);
-            }
+            // Delete the recipe
+            await RecipeDataService.DeleteRecipeAsync(r);
         }
-        catch (Exception ex)
-        {
-            Error = ex.Message;
-        }
+        recipes.Clear();
     }
 }
