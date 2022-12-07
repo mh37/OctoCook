@@ -6,7 +6,7 @@
 @inject RecipeDataService RecipeDataService
 
 <h3>Settings</h3>
-@Error
+
 <br />
 <button class="btn btn-success"
         @onclick="ExportData">
@@ -36,7 +36,7 @@
 {
     <p>Import failed</p>
 }
-@loadedJSON
+
 @code {
 
     string Error = "";
