@@ -7,6 +7,14 @@
         @onclick="NavigateBack">
     Back
 </button>
+<button class="btn btn-success"
+        @onclick="SaveRecipe">
+    Save
+</button>
+<button class="btn btn-danger"
+        @onclick="DeleteRecipe">
+    Delete
+</button>
 
 <p style="color:red">@Error</p>
 @if (recipe == null)
@@ -48,14 +56,7 @@ else
         Conf="@editorConf"
         @bind-Value=recipe.Instructions />
     <br />
-    <button class="btn btn-success"
-        @onclick="SaveRecipe">
-        Save
-    </button>
-    <button class="btn btn-danger"
-        @onclick="DeleteRecipe">
-        Delete
-    </button>
+
 
 }
 
