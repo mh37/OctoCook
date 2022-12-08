@@ -23,21 +23,14 @@ else
             <tr>
                 <th>Date</th>
                 <th>Title</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var recipe in recipes)
             {
-                <tr>
+                <tr @onclick="(() => OpenRecipe(recipe))" style="cursor:pointer;">
                     <td>@recipe.Date.ToShortDateString()</td>
                     <td>@recipe.Title</td>
-                    <td>
-                        <button class="btn btn-primary"
-                        @onclick="(() => OpenRecipe(recipe))">
-                            Open
-                        </button>
-                    </td>
                 </tr>
             }
         </tbody>
