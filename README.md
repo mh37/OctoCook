@@ -12,6 +12,17 @@ You are also provides with the option to import and export your recipes to and f
 - TinyMCE Richtext Editor
 - Local SQLite DB
 
+## Supported Platforms
+
+- Android 7.0 (API 24) or higher
+- iOS 14 or higher
+- macOS 11 or higher
+- Windows 10 (1809) or higher
+- Samsung Tizen
+
+Warning: This was only tested on Android and Windows. Configurations for other platforms may be incomplete. 
+
+
 ## Screenshots
 
 ### Windows
