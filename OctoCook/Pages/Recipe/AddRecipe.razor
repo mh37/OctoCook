@@ -3,7 +3,10 @@
 @inject RecipeDataService RecipeDataService
 @inject NavigationManager UriHelper
 
-
+<button class="btn btn-success"
+        @onclick="SaveRecipe">
+    Save
+</button>
 <button class="btn btn-primary"
         style="float:right;"
         @onclick="NavigateBack">
@@ -46,10 +49,7 @@
     @bind-Value=objRecipe.Instructions
 />
 <br />
-<button class="btn btn-success"
-    @onclick="SaveRecipe">
-    Save
-</button>
+
 
 
 @code
