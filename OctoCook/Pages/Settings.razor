@@ -132,13 +132,21 @@ else if (exportStatus == 3)
     async Task DeleteAllRecipes()
     {
         Error = "";
-        // load all recipes into the recipe list
-        recipes = await RecipeDataService.GetRecipesAsync();
-        // remove each recipe from the db
-        foreach (EndToEnd.Data.Recipe r in recipes)
+
+        try
         {
-            // Delete the recipe
-            await RecipeDataService.DeleteRecipeAsync(r);
+            // load all recipes into the recipe list
+            recipes = await RecipeDataService.GetRecipesAsync();
+            // remove each recipe from the db
+            foreach (EndToEnd.Data.Recipe r in recipes)
+            {
+                // Delete the recipe
+                await RecipeDataService.DeleteRecipeAsync(r);
+            }
+        }catch (Exception ex)
+        {
+            Error = ex.Message;
         }
+
     }
 }
