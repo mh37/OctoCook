@@ -22,7 +22,7 @@ You are also provides with the option to import and export your recipes to and f
 
 ### Android
 
-<img src="https://raw.githubusercontent.com/mh37/OctoCook/master/Screenshots/Android/menu.png" width=50% height=50%>
+<img src="https://github.com/mh37/OctoCook/blob/master/Screenshots/Android/menu.png" width=50% height=50%>
 
 <img src="https://raw.githubusercontent.com/mh37/OctoCook/master/Screenshots/Android/myRecipes.png" width=50% height=50%>
 
