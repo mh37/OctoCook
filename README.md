@@ -4,6 +4,12 @@ A cross platform application made with .NET MAUI and Blazor to manage your cooki
 
 You are also provides with the option to import and export your recipes to and from backups. The recipes are otherwise stored in a local SQLite database. 
 
+## Features
+
+- CRUD (Create Read Update Delete) Recipes 
+- API Recipe Search integration (incl. import functionality)
+- Create and restore local backup files 
+
 ## Technologies used
 
 - Blazor Hybrid with .NET MAUI
