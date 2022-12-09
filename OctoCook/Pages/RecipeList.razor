@@ -3,13 +3,15 @@
 @inject RecipeDataService RecipeDataService
 @inject NavigationManager UriHelper
 
-<h1>My Recipes</h1>
 <!-- Add a new recipe -->
 <button class="btn btn-success"
         style="float:right;"
-    @onclick="AddNewRecipe">
+        @onclick="AddNewRecipe">
     New Recipe
 </button>
+
+<h1>My Recipes</h1>
+
 
 @if (recipes == null)
 {
