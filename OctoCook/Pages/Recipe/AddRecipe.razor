@@ -17,6 +17,14 @@
 <input class="form-control" type="text"
     placeholder="Title"
        @bind="objRecipe.Title" />
+<label>Ready in (minutes):</label>
+<input class="form-control" type="number"
+       placeholder="minutes"
+       @bind="objRecipe.ReadyInMinutes" />
+<label>Servings:</label>
+<input class="form-control" type="number"
+       placeholder="Servings"
+       @bind="objRecipe.Servings" />
 <br />
 <label>Summary:</label>
 <TinyMCE.Blazor.Editor 
