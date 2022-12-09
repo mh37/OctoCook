@@ -21,3 +21,10 @@ You are also provides with the option to import and export your recipes to and f
 ![image](https://github.com/mh37/OctoCook/blob/master/Screenshots/Windows/searchRecipes.jpg)
 
 ### Android
+
+![image](https://github.com/mh37/OctoCook/blob/master/Screenshots/Android/menu.png)
+
+![image](https://github.com/mh37/OctoCook/blob/master/Screenshots/Android/myRecipes.png)
+
+![image](https://github.com/mh37/OctoCook/blob/master/Screenshots/Android/searchRecipes.png)
+
