@@ -68,20 +68,12 @@
         Error = "";
 
         try{
-            // Create new recipe
-            List<EndToEnd.Data.Recipe> recipes = new List<EndToEnd.Data.Recipe>();
-            EndToEnd.Data.Recipe recipe = new EndToEnd.Data.Recipe();
-            recipe.Date = System.DateTime.Now;
-            recipe.ReadyInMinutes = objRecipe.ReadyInMinutes;
-            recipe.Servings = objRecipe.Servings;
-            recipe.Ingredients = objRecipe.Ingredients;
-            recipe.Instructions = objRecipe.Instructions;
-            recipe.Title = objRecipe.Title;
-            // Save the result
-            var NewRecipe =
-            await RecipeDataService.CreateRecipeAsync(recipe);
-            // Add the recipe
-            recipes.Add(NewRecipe);
+            //add date of creation
+            objRecipe.Date = System.DateTime.Now;
+
+            // Save the new recipe
+            await RecipeDataService.CreateRecipeAsync(objRecipe);
+
             NavigateBack();
         }
         catch (Exception ex)
