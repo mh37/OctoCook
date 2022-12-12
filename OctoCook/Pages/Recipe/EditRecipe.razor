@@ -103,12 +103,6 @@ else
         }
     }
 
-
-    async void OnAlertYesNoClicked(object sender, EventArgs e)
-    {
-
-
-    }
     async Task DeleteRecipe()
     {
         bool deleteRecipePrompt = await App.Current.MainPage.DisplayAlert("Warning", "Delete Recipe?", "Yes", "No");
