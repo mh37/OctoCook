@@ -6,11 +6,12 @@
 @inject RecipeDataService RecipeDataService
 
 <h1>Settings</h1>
-
 <br />
+<h3>Backups</h3>
+<hr />
 <button class="btn btn-success"
         @onclick="ExportData">
-    Create Backup
+    <span class="oi oi-data-transfer-download" aria-hidden="true"></span> Create Backup
 </button>
 <br />
 @if(exportStatus == 1)
@@ -27,7 +28,7 @@ else if (exportStatus == 3)
 <br />
 <button class="btn btn-warning"
         @onclick="ImportData">
-    Import Backup
+    <span class="oi oi-data-transfer-upload" aria-hidden="true"></span> Import Backup
 </button>
 <br />
 @if(importStatus == 1)
