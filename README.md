@@ -4,6 +4,8 @@ A cross platform application made with .NET MAUI and Blazor to manage your cooki
 
 You are also provides with the option to import and export your recipes to and from backups. The recipes are otherwise stored in a local SQLite database. 
 
+WARNING: The code contains a hardcoded API key in the Search.razor file which is simply there as a placeholder. You will need to provide your own API key from Spoonacular to get this code working. Remember to not store your key in the code if you intend to distribute this App.  
+
 ## Features
 
 - CRUD (Create Read Update Delete) Recipes 
