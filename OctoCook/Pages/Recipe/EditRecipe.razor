@@ -54,12 +54,15 @@ else
         Conf="@editorConf"
         @bind-Value=recipe.Instructions />
     <br />
+    <div>
+        <button class="btn btn-danger"
+            style="width: 100%;"
+            @onclick="DeleteRecipe">
+            <span class="oi oi-trash" aria-hidden="true"></span> Delete Recipe
+        </button>
+    </div>
+    <br />
 
-    <button class="btn btn-danger"
-        style="float:;"
-        @onclick="DeleteRecipe">
-        <span class="oi oi-trash" aria-hidden="true"></span> Delete
-    </button>
 }
 
 @code
@@ -97,19 +100,31 @@ else
         }
     }
 
+
+    async void OnAlertYesNoClicked(object sender, EventArgs e)
+    {
+
+
+    }
     async Task DeleteRecipe()
     {
-        try
+        bool deleteRecipePrompt = await App.Current.MainPage.DisplayAlert("Warning", "Delete Recipe?", "Yes", "No");
+
+        if (deleteRecipePrompt)
         {
-            Error = "";
-            // Delete the recipe
-            await RecipeDataService.DeleteRecipeAsync(recipe);
-            NavigateBack();
+            try
+            {
+                Error = "";
+                // Delete the recipe
+                await RecipeDataService.DeleteRecipeAsync(recipe);
+                UriHelper.NavigateTo("/recipes");
+            }
+            catch (Exception ex)
+            {
+                Error = ex.Message;
+            }
         }
-        catch (Exception ex)
-        {
-            Error = ex.Message;
-        }
+
     }
 
     void NavigateBack()
