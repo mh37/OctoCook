@@ -4,17 +4,14 @@
 @inject NavigationManager UriHelper
 
 <button class="btn btn-primary"
-        style="float:right;"
         @onclick="NavigateBack">
-    Back
+    <span class="oi oi-chevron-left" aria-hidden="true"></span> Back
 </button>
+
 <button class="btn btn-warning"
+        style="float:right;"
         @onclick="EditRecipe">
-    Edit
-</button>
-<button class="btn btn-danger"
-        @onclick="DeleteRecipe">
-    Delete
+    <span class="oi oi-brush" aria-hidden="true"></span> Edit
 </button>
 
 <p style="color:red">@Error</p>
@@ -49,7 +46,7 @@ else
         <h4>Instructions</h4>
         <p>@((MarkupString)recipe.Instructions)</p>
     </div>
-    
+
 }
 
 @code
@@ -74,21 +71,6 @@ else
     void EditRecipe()
     {
         UriHelper.NavigateTo("/edit/" + recipe.Id);
-    }
-
-    async Task DeleteRecipe()
-    {
-        try
-        {
-            Error = "";
-            // Delete the recipe
-            await RecipeDataService.DeleteRecipeAsync(recipe);
-            NavigateBack();
-        }
-        catch (Exception ex)
-        {
-            Error = ex.Message;
-        }
     }
 
 }

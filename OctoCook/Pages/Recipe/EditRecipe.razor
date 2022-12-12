@@ -4,17 +4,14 @@
 @inject NavigationManager UriHelper
 
 <button class="btn btn-primary"
-        style="float:right;"
         @onclick="NavigateBack">
-    Back
+    <span class="oi oi-chevron-left" aria-hidden="true"></span> Back
 </button>
+
 <button class="btn btn-success"
+        style="float:right;"
         @onclick="SaveRecipe">
-    Save
-</button>
-<button class="btn btn-danger"
-        @onclick="DeleteRecipe">
-    Delete
+    <span class="oi oi-box" aria-hidden="true"></span> Save
 </button>
 
 <p style="color:red">@Error</p>
@@ -58,7 +55,11 @@ else
         @bind-Value=recipe.Instructions />
     <br />
 
-
+    <button class="btn btn-danger"
+        style="float:;"
+        @onclick="DeleteRecipe">
+        <span class="oi oi-trash" aria-hidden="true"></span> Delete
+    </button>
 }
 
 @code
@@ -113,7 +114,7 @@ else
 
     void NavigateBack()
     {
-        UriHelper.NavigateTo("/recipes");
+        UriHelper.NavigateTo("/view/" + recipe.Id);
     }
 
 }
