@@ -28,14 +28,17 @@ else
     <input class="form-control" type="text"
         placeholder="Title"
         @bind="recipe.Title" />
+    <br />
     <label>Ready in (minutes):</label>
     <input class="form-control" type="number"
        placeholder="minutes"
        @bind="recipe.ReadyInMinutes" />
+    <br />
     <label>Servings:</label>
     <input class="form-control" type="number"
        placeholder="Servings"
        @bind="recipe.Servings" />
+    <br />
     <label>Summary:</label>
     <TinyMCE.Blazor.Editor 
         ScriptSrc="/lib/tinymce/tinymce.min.js"
