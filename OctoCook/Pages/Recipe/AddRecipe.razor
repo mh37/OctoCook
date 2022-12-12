@@ -72,6 +72,8 @@
             List<EndToEnd.Data.Recipe> recipes = new List<EndToEnd.Data.Recipe>();
             EndToEnd.Data.Recipe recipe = new EndToEnd.Data.Recipe();
             recipe.Date = System.DateTime.Now;
+            recipe.ReadyInMinutes = objRecipe.ReadyInMinutes;
+            recipe.Servings = objRecipe.Servings;
             recipe.Ingredients = objRecipe.Ingredients;
             recipe.Instructions = objRecipe.Instructions;
             recipe.Title = objRecipe.Title;
