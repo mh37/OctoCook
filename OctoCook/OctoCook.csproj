@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
         <TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
@@ -54,7 +54,7 @@
       <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.10" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.10" />
       <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-      <PackageReference Include="TinyMCE" Version="6.3.0" />
+      <PackageReference Include="TinyMCE" Version="6.7.1" />
       <PackageReference Include="TinyMCE.Blazor" Version="1.0.4" />
     </ItemGroup>
 
